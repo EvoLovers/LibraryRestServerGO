@@ -92,5 +92,7 @@ func main() {
 	r.HandleFunc("/books", createBook).Methods("POST")
 	r.HandleFunc("/books/{id}", updateBook).Methods("PUT")
 	r.HandleFunc("/books/{id}", deleteBook).Methods("DELETE")
+	fs := http.FileServer(http.Dir("./files"))
+	r.PathPrefix("/files").Handler(http.StripPrefix("/files", fs))
 	log.Fatal(http.ListenAndServe(":8000", r))
 }
